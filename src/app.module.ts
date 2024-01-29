@@ -7,7 +7,6 @@ import { ConfigModule } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { WordModule } from './word/word.module';
 import { AuthModule } from './auth/auth.module';
-import { SetModule } from './set/set.module';
 
 @Module({
   imports: [
@@ -27,10 +26,9 @@ import { SetModule } from './set/set.module';
       entities: [path.join(__dirname, '**/*.entity{.ts,.js}')],
       migrations: [`${__dirname}/../migrations/**/*{.ts,.js}`],
     }),
+    AuthModule,
     UserModule,
     WordModule,
-    AuthModule,
-    SetModule,
   ],
   controllers: [AppController],
   providers: [AppService],

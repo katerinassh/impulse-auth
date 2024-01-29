@@ -1,0 +1,72 @@
+version: '1'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  nodejs-api:
+    build:
+      context: .
+    image: nodejs
+    container_name: impulse-auth
+    depends_on:
+      - db
+    links:
+      - db
+    restart: on-failure
+    env_file: .env
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qoadmin
+      - POSTGRES_DB=impulse-auth
+    ports:
+      - "27017:3000"
+    networks:
+      - app-network
+    command: npm start
+
+  db:
+    image: postgres:13-alpine
+    container_name: "postgres-test"
+    restart: always
+    environment:
+      - POSTGRES_DB=impulse-auth
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qoadmin
+    healthcheck:
+      test: >
+        psql postgresql://$${POSTGRES_USER}:$${POSTGRES_PASSWORD}@db/$${POSTGRES_DB} \
+          --tuples-only \
+          --command "select 'postgres is up';" \
+        || exit 1
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:
+      - ./scripts/seed-test-data.sql:/docker-entrypoint-initdb.d/11-init.sql
+    expose:
+      - "5455"
+    ports:
+      - "5455:5432"
+    networks:
+      - app-network
+
+  migration:
+    build: .
+    working_dir: "/app"
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qoadmin
+      - POSTGRES_DB=impulse-auth
+    env_file:
+      - .env
+    networks:
+      - app-network
+    depends_on:
+      - db
+    command: npm run migration:run

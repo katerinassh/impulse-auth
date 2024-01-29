@@ -1,30 +1,10 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Introduction
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Learn Words 
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+# Description
 
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Project with functionality for authorization and authentication using Nest.js framework and PostgreSQL database with TypeORM.
 
 ## Installation
 
@@ -34,40 +14,21 @@ $ npm install
 
 ## Running the app
 
-```bash
-# development
-$ npm run start
+There a couple of ways you can run the backend application using docker containers or locally.
 
-# watch mode
-$ npm run start:dev
+1. Using docker-compose to run the backend and the database in their respective containers with little to no setup. Just install docker-desktop or docker engine and CLI for your OS and docker-compose. After that follow the instructions up until running `docker-compose up` in the root dir ot the project and should be all set. In case of having issues, understanding the configuration after the explanation on how to run, can help troubleshooting.
 
-# production mode
-$ npm run start:prod
-```
-
-## Test
+2. Running the application locally, and only the database in a container. You will need to create a database by yourself, then use a script seed-test-data.sql and run migrations. That is step also requires docker due to just how easy it is to not worry about the DB installation overhead and configuration for development.
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+$ npm start
+$ npm run migration:run
 ```
 
-## Support
+## Environment variables file
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+There is a file `local.env` in the root dir of the project that has names of all variables which must be in `.env` file (which is ignored by git). Running the app locally and docker-compose both need it to load up their configurations.
 
-## Stay in touch
+## Running the backend with docker-compose
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+After you copy the `.env.example` to a `.env` file the setup is complete. Next you just need to run `docker-compose up` inside the root dir of the project and the app should run on `localhost:<PORT>`, where port is by default 27017 if you use docker-compose and 3000 if you locally.

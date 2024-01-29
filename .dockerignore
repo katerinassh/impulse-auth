@@ -1,0 +1,4 @@
+node-modules/
+.gitignore
+.env
+coverage/

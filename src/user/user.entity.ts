@@ -1,4 +1,3 @@
-import { Set } from 'src/set/set.entity';
 import { Word } from 'src/word/word.entity';
 import {
   Entity,
@@ -8,7 +7,6 @@ import {
   UpdateDateColumn,
   ManyToMany,
   JoinTable,
-  ManyToOne,
 } from 'typeorm';
 import { RolesEnum } from './enum/roles.enum';
 
@@ -33,15 +31,12 @@ export class User {
   @JoinTable()
   words: Word[];
 
-  @ManyToOne(() => Set, (set: Set) => set.creator)
-  creator: Set;
-
   @Column({ type: 'enum', enum: RolesEnum, nullable: false })
   role: RolesEnum;
 
-  @CreateDateColumn({ name: 'created_at' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
 }

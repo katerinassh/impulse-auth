@@ -1,17 +1,17 @@
-import { MigrationInterface, QueryRunner } from "typeorm";
+import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class InsertWords1706126965239 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE IF NOT EXISTS words (
+      `CREATE TABLE IF NOT EXISTS public.words (
           id SERIAL PRIMARY KEY UNIQUE,
-          uaName varchar(50) UNIQUE NOT NULL,
-          enName varchar(50) UNIQUE NOT NULL,
-          espName varchar(50) UNIQUE NOT NULL,
-          created_at TIMESTAMP NOT NULL DEFAULT now(),
-          updated_at TIMESTAMP NOT NULL DEFAULT now()
+          "uaName" varchar(50),
+          "enName" varchar(50),
+          "espName" varchar(50),
+          "createdAt" timestamp without time zone DEFAULT now() NOT NULL,
+          "updatedAt" timestamp without time zone DEFAULT now() NOT NULL
         );
-      INSERT INTO words(uaName, enName, espName)
+      INSERT INTO public.words("uaName", "enName", "espName")
       VALUES
         ('Привіт', 'Hello', 'Hola'),
         ('Ти', 'You', 'Tú'),
@@ -22,8 +22,9 @@ export class InsertWords1706126965239 implements MigrationInterface {
     );
   }
 
-    public async down(queryRunner: QueryRunner): Promise<void> {
-      await queryRunner.query(`DROP TABLE words;`);
-    }
-
+  public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(`
+      DELETE FROM words
+      WHERE "uaName" IN ('Привіт', 'Ти', 'кохати', 'програміст', 'мова');`);
+  }
 }
